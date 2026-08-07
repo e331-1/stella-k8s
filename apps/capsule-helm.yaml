@@ -5,6 +5,7 @@ metadata:
   name: capsule-helm
   namespace: argocd
   annotations:
+    #先にcert-managerをインストールするため、sync-waveを1に設定
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default

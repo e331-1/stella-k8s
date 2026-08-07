@@ -2,20 +2,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: capsule-config
+  name: metallb-config
   namespace: argocd
   annotations:
-    #capsule-helmの後にデプロイするため、sync-waveを2に設定
+    #metallb-helmの後にデプロイするため、sync-waveを2に設定
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/capsule-config # config.yaml が置いてあるパス
+    path: manifests/metallb-config # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: capsule-system
+    namespace: metallb-system
   syncPolicy:
     automated:
       prune: true

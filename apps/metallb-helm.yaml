@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # 1. 'helm repo add metallb' の URL
+    repoURL: https://metallb.github.io/metallb
+    # 2. 'metallb/metallb' のチャート名
+    chart: metallb
+    # 3. チャートのバージョン指定 (最新版を追従する場合は '0.*' など、固定したい場合は '0.14.8' 等を指定)
+    targetRevision: 0.*
+    # 必要に応じて custom values を設定
+    # helm:
+    #   valuesObject:
+    #     controller:
+    #       loglevel: info
+  destination:
+    server: https://kubernetes.default.svc
+    # 通常は metallb-system ネームスペースにデプロイします
+    namespace: metallb-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
