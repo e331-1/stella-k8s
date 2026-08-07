@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: capsule-helm
+  namespace: argocd
+  annotations:
+    # 最初に適用させるために wave 0 を指定
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: 'https://clastix.github.io/charts'
+    chart: capsule
+    targetRevision: 0.7.0
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: capsule-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

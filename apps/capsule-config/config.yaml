@@ -1,0 +1,12 @@
+apiVersion: capsule.clastix.io/v1beta2
+kind: CapsuleConfiguration
+metadata:
+  name: default
+spec:
+  cacheInvalidation: 0h30m0s
+  enableTLSReconciler: false
+  rbac:
+    enabled: true
+  users:
+    - kind: Group
+      name: system:authenticated
