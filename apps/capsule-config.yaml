@@ -5,8 +5,7 @@ metadata:
   name: capsule-config
   namespace: argocd
   annotations:
-    # 本体（CRD）の適用完了後に実行するため wave 1 を指定
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
