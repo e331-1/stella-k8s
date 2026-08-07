@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://clastix.github.io/charts'
+    repoURL: 'https://projectcapsule.github.io/charts'
     chart: capsule
     targetRevision: 0.13.*
   destination:
