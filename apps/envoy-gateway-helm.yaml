@@ -9,9 +9,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'docker.io/envoyproxy/gateway-helm '
-    chart: eg
+    repoURL: 'docker.io/envoyproxy'
+    chart: gateway-helm
     targetRevision: 1.8.*
+    helm:
+      # Argo CD 側で Helm リリース名を明示したい場合は releaseName を指定できます
+      releaseName: eg
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: envoy-gateway-system
