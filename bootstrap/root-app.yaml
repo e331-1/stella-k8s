@@ -9,6 +9,8 @@ spec:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
     path: apps # apps/ 配下の全ファイルを再帰的に読み込む
+    # directory:
+    #   recurse: true
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd

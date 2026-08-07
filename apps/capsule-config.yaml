@@ -1,3 +1,4 @@
+#capsule-config/Application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,7 +12,7 @@ spec:
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: apps/capsule-config # config.yaml が置いてあるパス
+    path: manifests/capsule-config # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: capsule-system

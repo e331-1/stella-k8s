@@ -1,3 +1,4 @@
+# capsule-config/config.yaml
 apiVersion: capsule.clastix.io/v1beta2
 kind: CapsuleConfiguration
 metadata:
