@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: 'https://clastix.github.io/charts'
     chart: capsule
-    targetRevision: 0.7.0
+    targetRevision: 0.13.*
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: capsule-system
