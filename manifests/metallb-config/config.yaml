@@ -1,27 +1,21 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: envoy-gateway-pool
+  name: envoy-dedicated-pool
   namespace: metallb-system
 spec:
   addresses:
-    - 192.168.0.200/32 # Envoy Gateway専用の固定IP
-  autoAssign: true
-  serviceAllocation:
-    serviceSelectors:
-      - matchLabels:
-          app.kubernetes.io/name: gateway-helm
-          app.kubernetes.io/instance: eg # Envoy Gateway Helm release 名に合わせる
+  - 192.168.0.200/32
+  autoAssign: false  # 他の一般的なServiceへ自動で配らないようにする
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: default-pool
+  name: general-pool
   namespace: metallb-system
 spec:
   addresses:
-  #- 10.0.1.200-10.0.1.254
-  - 192.168.0.201-192.168.0.254
+  - 192.168.0.201-192.168.0.250
   autoAssign: true
 ---
 apiVersion: metallb.io/v1beta1
