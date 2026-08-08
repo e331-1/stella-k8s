@@ -6,7 +6,7 @@ metadata:
 spec:
   addresses:
     - 192.168.0.200/32 # Envoy Gateway専用の固定IP
-  autoAssign: false    # 自動割り当て対象外にする（明示的な指定が必要）
+  autoAssign: true
   serviceAllocation:
     serviceSelectors:
       - matchLabels:
