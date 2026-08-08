@@ -10,7 +10,8 @@ spec:
   serviceAllocation:
     serviceSelectors:
       - matchLabels:
-          app: envoy-gateway # 特定のラベルが付いたServiceのみこのプールを使用可能
+          app.kubernetes.io/name: gateway-helm
+          app.kubernetes.io/instance: eg # Envoy Gateway Helm release 名に合わせる
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
