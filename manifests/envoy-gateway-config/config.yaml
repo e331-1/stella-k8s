@@ -1,4 +1,13 @@
 apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: eg
+spec:
+  controller: gateway.envoyproxy.io/gateway-controller
+
+---
+
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-gateway
