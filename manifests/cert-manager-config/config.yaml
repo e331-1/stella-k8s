@@ -12,7 +12,6 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: ca-issuer
-  namespace: cert-manager
 spec:
   acme:
     email: pitpencilcase@gmail.com # your emailadress
@@ -31,7 +30,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: pitpe-app-certificate
-  namespace: cert-manager
+  namespace: envoy-gateway-system
 spec:
   secretName: pitpe-app-tls 
   dnsNames:

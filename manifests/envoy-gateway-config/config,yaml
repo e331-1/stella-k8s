@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-gateway
+  namespace: envoy-gateway-system
+spec:
+  gatewayClassName: eg
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    hostname: "*.pitpe.app"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: pitpe-app-tls # Certificate が生成した Secret 名を指定
