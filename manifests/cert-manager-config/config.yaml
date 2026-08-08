@@ -37,4 +37,5 @@ spec:
     - "*.pitpe.app"
     - "pitpe.app"
   issuerRef:
+    kind: ClusterIssuer 
     name: ca-issuer
