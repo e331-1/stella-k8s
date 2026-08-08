@@ -9,9 +9,10 @@ stringData:
   api-token: YZp44wH_-M8Z63w1mv1-aeS64q-2I-mSCpwYxiEG
 ---
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: ca-issuer
+  namespace: envoy-gateway-system
 spec:
   acme:
     email: pitpencilcase@gmail.com # your emailadress
@@ -38,4 +39,3 @@ spec:
     - "pitpe.app"
   issuerRef:
     name: ca-issuer
-    kind: ClusterIssuer
