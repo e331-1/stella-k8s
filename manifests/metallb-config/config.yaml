@@ -25,4 +25,5 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - default
+  - envoy-dedicated-pool
+  - general-pool
