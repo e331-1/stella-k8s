@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  #namespace: cert-manager
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: YZp44wH_-M8Z63w1mv1-aeS64q-2I-mSCpwYxiEG
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pitpe-app-certificate
+  namespace: envoy-gateway-system
+spec:
+  secretName: pitpe-app-tls 
+  dnsNames:
+    - "*.pitpe.app"
+    - "pitpe.app"
+  issuerRef:
+    kind: ClusterIssuer 
+    name: ca-issuer

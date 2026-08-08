@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# 上の階層（base）を引き継ぐ
+resources:
+  - ../../base
+  - issuer-staging.yaml

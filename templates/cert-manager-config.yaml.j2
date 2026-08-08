@@ -12,10 +12,12 @@ spec:
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/cert-manager-config # config.yaml が置いてあるパス
+    # path: manifests/cert-manager-config # config.yaml が置いてあるパス
+    path: "manifests/cert-manager-config/overlays/{{ cert_manager_env | default('staging') }}"
   destination:
     server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      
