@@ -9,7 +9,7 @@ stringData:
   api-token: YZp44wH_-M8Z63w1mv1-aeS64q-2I-mSCpwYxiEG
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: ca-issuer
 spec:
@@ -38,3 +38,4 @@ spec:
     - "pitpe.app"
   issuerRef:
     name: ca-issuer
+    kind: ClusterIssuer
