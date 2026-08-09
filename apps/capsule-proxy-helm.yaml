@@ -12,7 +12,7 @@ spec:
     chart: capsule-proxy
     targetRevision: 0.13.*
     helm:
-      valuesObject:
+      values: |
         # cert-manager を使用して証明書を自動作成する場合
         certManager:
           generateCertificates: true
