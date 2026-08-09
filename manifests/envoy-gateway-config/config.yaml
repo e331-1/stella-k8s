@@ -12,14 +12,27 @@ metadata:
   namespace: envoy-gateway-system
 spec:
   gatewayClassName: eg
-  addresses:
-  - type: IPAddress
-    value: 192.168.0.200 # Envoyに割り当てたい固定IP
+  infrastructure:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: proxy-config
+  # addresses:
+  # - type: IPAddress
+  #   value: 192.168.0.200 # Envoyに割り当てたい固定IP
   listeners:
   - name: https
     protocol: HTTPS
     port: 443
     hostname: "*.pitpe.app"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: pitpe-app-tls # Certificate が生成した Secret 名を指定
+  - name: https
+    protocol: HTTPS
+    port: 443
+    hostname: "pitpe.app"
     tls:
       mode: Terminate
       certificateRefs:

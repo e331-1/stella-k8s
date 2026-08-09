@@ -1,0 +1,55 @@
+# nginx-test.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      labels:
+        app: nginx-test
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-test-svc
+  namespace: default
+spec:
+  selector:
+    app: nginx-test
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-route
+  namespace: default
+spec:
+  parentRefs:
+  - name: eg   # 使用している Gateway リソースの名前
+    namespace: envoy-gateway-system # Gateway が存在するネームスペース
+  hostnames:
+  - "pitpe.app"       # テストしたいドメイン名
+  - "test.pitpe.app"  # 複数ある場合は追加
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: nginx-test-svc
+      port: 80
