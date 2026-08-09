@@ -36,8 +36,19 @@ data "talos_machine_configuration" "controlplane" {
     yamlencode({
       cluster = {
         allowSchedulingOnControlPlanes = true
+        network = {
+          cni = {
+            name = "none"
+          }
+        }
+        proxy = {
+          disabled = true
+        }
       }
       machine = {
+        nodeLabels = {
+          "node.kubernetes.io/exclude-from-external-load-balancers" = null
+        }
         network = {
           nameservers = [
             "1.1.1.1",
@@ -108,7 +119,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     mac_address = "BC:24:11:CB:45:C8" # ★ MACアドレスを明示的に固定
   }
 
-  boot_order = ["ide2", "scsi0"]
+  boot_order = ["scsi0","ide2"]
 }
 
 # resource "proxmox_virtual_environment_firewall_rules" "security_group_rules" {
@@ -198,7 +209,11 @@ resource "helm_release" "argocd" {
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
-  version          = "3.5.0" # ※必要に応じて最新チャートバージョンに変更
+  
+  #https://github.com/argoproj/argo-helm
+  #最新バージョンはここからチェック
+  version          = "10.3.0" # ※必要に応じて最新チャートバージョンに変更
+
   namespace        = "argocd"
   create_namespace = true
   wait             = true   # CRDが準備完了するまで待機する

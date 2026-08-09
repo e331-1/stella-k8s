@@ -11,3 +11,5 @@
 
 .terraform.lock.hcl
 talosconfig
+.terraform.tfstate.lock.info
+kubeconfig

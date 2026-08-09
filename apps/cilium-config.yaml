@@ -2,20 +2,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb-config
+  name: cilium-config
   namespace: argocd
   annotations:
-    #metallb-helmの後にデプロイするため、sync-waveを2に設定
+    #capsule-helmの後にデプロイするため、sync-waveを2に設定
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/metallb-config # config.yaml が置いてあるパス
+    path: manifests/cilium-config # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: metallb-system
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
