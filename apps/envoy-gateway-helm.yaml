@@ -12,13 +12,6 @@ spec:
     repoURL: 'docker.io/envoyproxy'
     chart: gateway-helm
     targetRevision: 1.8.*
-    helm:
-      valuesObject:
-        service:
-          type: LoadBalancer
-          loadBalancerIP: 192.168.0.200
-      # Argo CD 側で Helm リリース名を明示したい場合は releaseName を指定できます
-      releaseName: eg
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: envoy-gateway-system

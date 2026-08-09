@@ -1,7 +1,0 @@
-# test-ns.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: test
-  annotations:
-    capsule.clastix.io/tenant: tenant-pit

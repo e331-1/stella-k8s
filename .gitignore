@@ -1,1 +1,13 @@
-./vars.yml
+# パスワードが含まれる tfvars を管理対象外にする
+*.tfvars
+*.tfvars.json
+
+# 状態管理ファイル（認証情報やIPが含まれるため）
+*.tfstate
+*.tfstate.backup
+
+# ディレクトリ
+.terraform/
+
+.terraform.lock.hcl
+talosconfig
