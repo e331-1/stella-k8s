@@ -38,3 +38,9 @@ variable "environment" {
     error_message = "environment は 'production' または 'staging' を指定してください。"
   }
 }
+
+
+variable "cloudflare_api_token" {
+  type      = string
+  sensitive = true
+}

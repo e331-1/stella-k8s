@@ -1,28 +1,24 @@
-apiVersion: "cilium.io/v2alpha1"
+apiVersion: "cilium.io/v2"
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: "first-pool"
+  name: lan-pool
+  namespace: kube-system
 spec:
   blocks:
+    # 例: 192.168.0.200 〜 192.168.0.254 を LoadBalancer 用に解放
     - start: "192.168.0.200"
-      stop: "192.168.0.250"
+      stop: "192.168.0.254"
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
 metadata:
-  name: "l2-policy"
+  name: l2-policy
+  namespace: kube-system
 spec:
-  # LoadBalancer タイプの Service 全体に対して有効化
-  serviceSelector:
-    matchExpressions:
-      - key: "color" # 任意のラベル指定、空（指定なし）ならすべての Service に適用
-        operator: "DoesNotExist"
-  nodeSelector:
-    matchExpressions:
-      - key: "kubernetes.io/hostname"
-        operator: "Exists"
+  # L2 応答を返すネットワークインターフェース（例: eth0）
+  # 空指定や eth0 の指定でノードのメインNICからARP応答を返します
   interfaces:
-    - "eth0" # パケットを応答させる NIC
+    - "ens19"
   externalIPs: true
   loadBalancerIPs: true
 ---
@@ -33,6 +29,9 @@ metadata:
   namespace: default
 spec:
   gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "192.168.0.200"
   listeners:
     - name: https
       protocol: HTTPS
