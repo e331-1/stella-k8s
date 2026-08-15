@@ -57,6 +57,32 @@ stringData:
         token_secret: "${element(split("=", proxmox_virtual_environment_user_token.csi.value), 1)}"
         region: ${var.proxmox_clustername}
 EOT
+          },
+{
+            name = "custom-proxmox-storageclass"
+            contents = <<EOT
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: proxmox-local-lvm
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true" # デフォルトにしたい場合は追加
+provisioner: csi.proxmox.sinextra.dev
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  # Proxmox VE の WebUI に表示されている正確な Storage ID を指定します
+  # (例: "local-lvm", "local-zfs", "ceph-store" など)
+  storage: "local-lvm"
+  
+  # ディスクフォーマット (ext4, xfs 等)
+  csi.storage.k8s.io/fstype: "ext4"
+
+  # （任意）帯域制限やキャッシュ制御等のオプション
+  # cache: "none"
+  # ssd: "1"
+EOT
           }
         ]
         externalCloudProvider ={
