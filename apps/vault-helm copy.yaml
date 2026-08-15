@@ -1,0 +1,54 @@
+# capsule-helm/Application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://helm.releases.hashicorp.com'
+    chart: vault
+    # targetRevision: 0.13.*
+    helm:
+      values: |
+        server:
+          # 高可用性（HA）モードでRaftストレージを使用
+          ha:
+            enabled: true
+            replicas: 3
+            raft:
+              enabled: true
+              setInstanceGroup: true
+              config: |
+                ui = true
+                listener "tcp" {
+                  tls_disable = 1
+                  address = "[::]:8200"
+                  cluster_address = "[::]:8201"
+                }
+                storage "raft" {
+                  path = "/vault/data"
+                }
+
+          # Proxmox CSIを利用した永続ボリューム（PVC）の設定
+          dataStorage:
+            enabled: true
+            size: 10Gi
+            # ここにご自身のProxmox CSIのStorageClass名を指定します
+            storageClass: "proxmox-data"
+            accessMode: ReadWriteOnce
+
+        # Web UIを有効化
+        ui:
+          enabled: true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    # namespace: vault
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

@@ -13,6 +13,11 @@ variable "proxmox_password" {
   sensitive = true
 }
 
+variable "proxmox_clustername" {
+  type      = string
+  default = "stella"
+}
+
 variable "node_name" {
   type    = string
   default = "stella-01" # Proxmoxのノード名
@@ -40,7 +45,7 @@ variable "environment" {
 }
 
 
-variable "cloudflare_api_token" {
-  type      = string
-  sensitive = true
+variable "vm_name" {
+  type    = string
+  default = "talos-single"
 }
