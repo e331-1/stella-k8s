@@ -33,7 +33,7 @@ spec:
     - type: IPAddress
       value: "192.168.0.200"
   listeners:
-    - name: https
+    - name: https-wildcard
       protocol: HTTPS
       port: 443
       hostname: "*.pitpe.app"
@@ -41,7 +41,7 @@ spec:
         mode: Terminate
         certificateRefs:
         - name: pitpe-app-tls # Certificate が生成した Secret 名を指定
-    - name: https
+    - name: https-apex
       protocol: HTTPS
       port: 443
       hostname: "pitpe.app"
