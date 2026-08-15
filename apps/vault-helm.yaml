@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
     chart: vault
-    # targetRevision: 0.13.*
+    targetRevision: 0.34.1
     helm:
       values: |
         server:
@@ -50,5 +50,5 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      # - CreateNamespace=true
       - ServerSideApply=true
