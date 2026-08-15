@@ -1,0 +1,8 @@
+apiVersion: capsule.clastix.io/v1beta2
+kind: Tenant
+metadata:
+  name: system-infra
+spec:
+  owners:
+  - kind: ServiceAccount
+    name: system:serviceaccount:argocd:argocd-application-controller
