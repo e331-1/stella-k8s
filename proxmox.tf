@@ -1,4 +1,48 @@
 
+
+
+
+# データセンターレベルでセキュリティグループを定義
+resource "proxmox_virtual_environment_cluster_firewall_security_group" "talos_sg" {
+  name    = "talos-nodes"
+  comment = "Firewall rules for Talos Linux nodes"
+  
+  rule {
+    type    = "out"
+    action  = "ACCEPT"
+    dest    = "192.168.0.100"
+    comment = "proxmox VE ノードへのアクセスを許可(proxmox ccm・csi用)"
+    enabled = true
+  }
+  rule {
+    type    = "out"
+    action  = "REJECT"
+    dest    = "192.168.0.0/24"
+    comment = "ローカルへのアクセスを禁止"
+    enabled = true
+  }
+
+}
+
+
+
+
+resource "proxmox_virtual_environment_firewall_rules" "security_group_rules" {
+  depends_on = [
+    proxmox_virtual_environment_vm.talos_single,
+    proxmox_virtual_environment_cluster_firewall_security_group.talos_sg,
+  ]
+
+  node_name = proxmox_virtual_environment_vm.talos_single.node_name
+  vm_id     = proxmox_virtual_environment_vm.talos_single.vm_id
+
+
+  rule {
+    security_group = proxmox_virtual_environment_cluster_firewall_security_group.talos_sg.name
+  }
+}
+
+
 # --- 3. Proxmox上に Talos VM を作成 ---
 resource "proxmox_virtual_environment_vm" "talos_single" {
   name      = var.vm_name
