@@ -74,7 +74,7 @@ volumeBindingMode: WaitForFirstConsumer
 parameters:
   # Proxmox VE の WebUI に表示されている正確な Storage ID を指定します
   # (例: "local-lvm", "local-zfs", "ceph-store" など)
-  storage: "local-lvm"
+  storage: "storage-01"
   
   # ディスクフォーマット (ext4, xfs 等)
   csi.storage.k8s.io/fstype: "ext4"
