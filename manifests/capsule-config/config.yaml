@@ -8,6 +8,8 @@ spec:
   enableTLSReconciler: false
   rbac:
     enabled: true
-  users:
-    - kind: Group
-      name: system:authenticated
+  # users:
+  #   - kind: Group
+  #     name: system:authenticated
+  userGroups:
+      - capsule.clastix.io
