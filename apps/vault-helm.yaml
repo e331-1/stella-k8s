@@ -13,24 +13,16 @@ spec:
     helm:
       values: |
         server:
-          # 高可用性（HA）モードでRaftストレージを使用
+          # HA を無効化
           ha:
+            enabled: false
+          
+          # 単一 Pod 構成（スタンドアロン）を有効化
+          standalone:
             enabled: true
-            replicas: 3
-            raft:
-              enabled: true
-              setInstanceGroup: true
-              config: |
-                ui = true
-                listener "tcp" {
-                  tls_disable = 1
-                  address = "[::]:8200"
-                  cluster_address = "[::]:8201"
-                }
-                storage "raft" {
-                  path = "/vault/data"
-                }
 
+          # レプリカ数を 1 に設定（デフォルト 1 ですが明示）
+          replicas: 1
           # Proxmox CSIを利用した永続ボリューム（PVC）の設定
           dataStorage:
             enabled: true
