@@ -21,7 +21,7 @@ metadata:
   namespace: capsule-system
 spec:
   parentRefs:
-  - name: cilium-gateway-gateway
+  - name: cilium-gateway
     namespace: default
   hostnames:
   - "kubernetes.pitpe.app" # 利用するホスト名またはドメイン名に変更してください
