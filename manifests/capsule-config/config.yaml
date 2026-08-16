@@ -33,3 +33,18 @@ spec:
     backendRefs:
     - name: capsule-proxy
       port: 9001
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: capsule-proxy-tls
+  namespace: capsule-system
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: capsule-proxy
+  validation:
+    # capsule-proxy の自己署名証明書の検証をスキップ/緩和する場合
+    hostname: "capsule-proxy.capsule-system.svc"
+    wellKnownCACertificates: System
