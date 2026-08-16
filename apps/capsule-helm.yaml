@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: capsule-helm
+  name: capsule
   namespace: argocd
   annotations:
     #先にcert-managerをインストールするため、sync-waveを1に設定

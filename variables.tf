@@ -54,3 +54,13 @@ variable "vm_name" {
   type    = string
   default = "talos-single"
 }
+
+
+variable "oidc_client_id" {
+  type    = string
+}
+
+variable "oidc_issuer_url" {
+  type    = string
+  default = "https://accounts.google.com"
+}
