@@ -102,15 +102,15 @@ EOT
         proxy = {
           disabled = true
         }
-      
-      }
-      apiServer={
-        extraArgs = {
-          "oidc-issuer-url" = var.oidc_issuer_url
-          "oidc-client-id" = var.oidc_client_id
-          "oidc-username-claim" = "email"
+        apiServer={
+          extraArgs = {
+            "oidc-issuer-url" = var.oidc_issuer_url
+            "oidc-client-id" = var.oidc_client_id
+            "oidc-username-claim" = "email"
+          }
         }
       }
+      
       machine = {
         #cilium用
         # ★ localhost:7445 (KubePrism) を有効化して Cilium が API サーバーを見つけられるようにする

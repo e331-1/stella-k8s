@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name:  capsule-proxy-helm
+  name:  capsule-proxy
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
