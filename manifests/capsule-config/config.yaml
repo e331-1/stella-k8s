@@ -34,18 +34,20 @@ spec:
     - name: capsule-proxy
       port: 9001
       scheme: https
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: BackendTLSPolicy
-# metadata:
-#   name: capsule-proxy-tls
-#   namespace: capsule-system
-# spec:
-#   targetRefs:
-#     - group: ""
-#       kind: Service
-#       name: capsule-proxy
-#   validation:
-#     # capsule-proxy の自己署名証明書の検証をスキップ/緩和する場合
-#     hostname: "capsule-proxy.capsule-system.svc"
-#     wellKnownCACertificates: System
+---
+apiVersion: gateway.networking.k8s.io/v1alpha3
+kind: BackendTLSPolicy
+metadata:
+  name: capsule-proxy-tls-policy
+  namespace: capsule-system
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: capsule-proxy
+  validation:
+    caCertificateRefs:
+      - group: ""
+        kind: Secret
+        name: capsule-proxy-root-secret
+    hostname: "capsule-proxy.capsule-system.svc"  # 証明書の SAN (Subject Alternative Name) に合わせる
