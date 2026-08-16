@@ -41,6 +41,9 @@ spec:
         mode: Terminate
         certificateRefs:
         - name: pitpe-app-tls # Certificate が生成した Secret 名を指定
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: https-apex
       protocol: HTTPS
       port: 443
@@ -49,3 +52,6 @@ spec:
         mode: Terminate
         certificateRefs:
         - name: pitpe-app-tls # Certificate が生成した Secret 名を指定
+      allowedRoutes:
+        namespaces:
+          from: All
