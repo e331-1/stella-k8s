@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: httproute
+  namespace: argocd
+  annotations:
+    #capsule-helmの後にデプロイするため、sync-waveを2に設定
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/e331-1/stella-k8s.git'
+    targetRevision: HEAD
+    path: manifests/httproute # config.yaml が置いてあるパス
+  destination:
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

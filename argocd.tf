@@ -17,7 +17,47 @@ resource "helm_release" "argocd" {
   depends_on = [
     time_sleep.wait_for_k8s_api
   ]
+  values = [ <<EOT
+global:
+  domain: argocd.example.com
 
+dex:
+  enabled: true
+  config: |
+    connectors:
+      - type: google
+        id: google
+        name: Google
+        config:
+          clientID: "${var.oidc_client_id}"
+          clientSecret: "${var.oidc_client_secret}"
+          redirectURI: https://argocd.pitpe.com/api/dex/callback
+          groups:
+            - capsule.clastix.io
+
+    # Device Flow (CLI用) を有効化する場合
+    strategy:
+      device:
+        userCode: choice
+
+    staticClients:
+      - id: kubernetes-device
+        name: 'Kubernetes CLI (Device Flow)'
+        secret: "${var.device_client_secret}"
+        grantTypes:
+          - authorization_code                       # ← 通常のブラウザ自動起動用
+          - urn:ietf:params:oauth:grant-type:device_code  # ← Device Flow (暗証番号) 用
+          - refresh_token                            # ← トークン自動更新用
+        redirectURIs:
+          - http://localhost:8000/callback           # kubeloginのローカルリダイレクト用
+          - http://127.0.0.1:8000/callback
+
+configs:
+  rbac:
+    policy.csv: |
+      g, capsule.clastix.io, role:admin
+EOT
+  ]
   
   # 必要に応じてパラメータのカスタマイズ（例: Ingressの有効化やServer設定など）
   # set {

@@ -60,6 +60,16 @@ variable "oidc_client_id" {
   type    = string
 }
 
+variable "oidc_client_secret" {
+    type      = string
+    sensitive = true
+}
+
+variable "device_client_secret" {
+  type      = string
+  sensitive = true
+}
+
 variable "oidc_issuer_url" {
   type    = string
   default = "https://accounts.google.com"
