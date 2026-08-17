@@ -20,7 +20,9 @@ resource "helm_release" "argocd" {
   values = [ <<EOT
 global:
   domain: argocd.example.com
-
+server:
+  extraArgs:
+    - --insecure
 dex:
   enabled: true
   config: |
