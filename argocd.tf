@@ -23,9 +23,7 @@ global:
 server:
   extraArgs:
     - --insecure
-dex:
-  enabled: true
-  config: |
+dex.config: |
     connectors:
       - type: google
         id: google

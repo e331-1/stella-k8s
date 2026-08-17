@@ -107,6 +107,7 @@ EOT
             "oidc-issuer-url" = var.oidc_issuer_url
             "oidc-client-id" = var.oidc_client_id
             "oidc-username-claim" = "email"
+            "oidc-groups-claim" = "groups"
           }
         }
       }

@@ -1,0 +1,21 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: dex-google-secret
+  namespace: dex
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: dex-google-secret # 自動生成される K8s Secret 名
+  data:
+  - secretKey: GOOGLE_CLIENT_ID
+    remoteRef:
+      key: secret/dex
+      property: google_client_id
+  - secretKey: GOOGLE_CLIENT_SECRET
+    remoteRef:
+      key: secret/dex
+      property: google_client_secret

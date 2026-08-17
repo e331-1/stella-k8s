@@ -12,31 +12,42 @@ spec:
     targetRevision: 0.24.1 
     helm:
       values: |
-        server:
-          # HA を無効化
-          ha:
-            enabled: false
-          
-          # 単一 Pod 構成（スタンドアロン）を有効化
-          standalone:
-            enabled: true
+        https:
+          # -- Enable the HTTPS endpoint.
+          enabled: false
 
-          # レプリカ数を 1 に設定（デフォルト 1 ですが明示）
-          replicas: 1
-          # Proxmox CSIを利用した永続ボリューム（PVC）の設定
-          dataStorage:
-            enabled: true
-            size: 10Gi
-            # ここにご自身のProxmox CSIのStorageClass名を指定します
-            storageClass: "proxmox-local-lvm"
-            accessMode: ReadWriteOnce
+        config:        
+          connectors:
+            - type: google
+              id: google
+              name: Google
+              config:
+                clientID: $GOOGLE_CLIENT_ID
+                clientSecret: $GOOGLE_CLIENT_SECRET
+                redirectURI: https://dex.pitpe.com/callback
+                groups:
+                  - capsule.clastix.io
 
-        # Web UIを有効化
-        ui:
-          enabled: true
+          # Device Flow (CLI用) を有効化する場合
+          strategy:
+            device:
+              userCode: choice
+
+          staticClients:
+            - id: kubernetes-device
+              name: 'Kubernetes CLI (Device Flow)'
+              secret: "${var.device_client_secret}"
+              grantTypes:
+                - authorization_code                       # ← 通常のブラウザ自動起動用
+                - urn:ietf:params:oauth:grant-type:device_code  # ← Device Flow (暗証番号) 用
+                - refresh_token                            # ← トークン自動更新用
+              redirectURIs:
+                - http://localhost:8000/callback           # kubeloginのローカルリダイレクト用
+                - http://127.0.0.1:8000/callback
+
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: vault
+    namespace: dex
   syncPolicy:
     automated:
       prune: true
