@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: httproute
+  name: argocd-httproute
   namespace: argocd
   annotations:
     #capsule-helmの後にデプロイするため、sync-waveを2に設定
