@@ -19,6 +19,7 @@ spec:
         # Node や StorageClass などのプロキシ機能（フィルター）をすべて有効化
         options:
           enableAllOption: true
+          logLevel: 10
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: capsule-system

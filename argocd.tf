@@ -12,7 +12,7 @@ resource "helm_release" "argocd" {
   create_namespace = true
   wait             = true   # CRDが準備完了するまで待機する
 
-  timeout = 600
+  timeout = 1200
 
   depends_on = [
     time_sleep.wait_for_k8s_api
@@ -25,36 +25,39 @@ server:
     - --insecure
 dex:
   enabled: true
-  config: |
-    connectors:
-      - type: google
-        id: google
-        name: Google
-        config:
-          clientID: "${var.oidc_client_id}"
-          clientSecret: "${var.oidc_client_secret}"
-          redirectURI: https://argocd.pitpe.com/api/dex/callback
-          groups:
-            - capsule.clastix.io
 
-    # Device Flow (CLI用) を有効化する場合
-    strategy:
-      device:
-        userCode: choice
-
-    staticClients:
-      - id: kubernetes-device
-        name: 'Kubernetes CLI (Device Flow)'
-        secret: "${var.device_client_secret}"
-        grantTypes:
-          - authorization_code                       # ← 通常のブラウザ自動起動用
-          - urn:ietf:params:oauth:grant-type:device_code  # ← Device Flow (暗証番号) 用
-          - refresh_token                            # ← トークン自動更新用
-        redirectURIs:
-          - http://localhost:8000/callback           # kubeloginのローカルリダイレクト用
-          - http://127.0.0.1:8000/callback
-
+# ★ ここが重要です: dex.config は configs.cm の下に記述します
 configs:
+  cm:
+    url: https://argocd.pitpe.app
+    dex.config: |
+      connectors:
+        - type: google
+          id: google
+          name: Google
+          config:
+            clientID: "${var.oidc_client_id}"
+            clientSecret: "${var.oidc_client_secret}"
+            redirectURI: https://argocd.pitpe.app/api/dex/callback
+            groups:
+              - capsule.clastix.io
+
+      strategy:
+        device:
+          userCode: choice
+
+      staticClients:
+        - id: kubernetes-client
+          name: 'Kubernetes CLI'
+          secret: "${var.device_client_secret}"
+          grantTypes:
+            - authorization_code
+            - urn:ietf:params:oauth:grant-type:device_code
+            - refresh_token
+          redirectURIs:
+            - http://localhost:8000
+            - http://127.0.0.1:8000
+
   rbac:
     policy.csv: |
       g, capsule.clastix.io, role:admin
