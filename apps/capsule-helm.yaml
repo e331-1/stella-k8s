@@ -5,9 +5,6 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
-  annotations:
-    #先にcert-managerをインストールするため、sync-waveを1に設定
-    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
@@ -21,10 +18,7 @@ spec:
           enabled: true
           webhooks:
             enabled: true
-          certManager:
-            generateCertificates: true
           options:
-            generateCertificates: false
             oidcUsernameClaim: "email"
             extraArgs:
             - "--feature-gates=ProxyClusterScoped=true"
