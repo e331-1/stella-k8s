@@ -17,8 +17,6 @@ spec:
     helm:
       valuesObject:
 
-        extraArgs:
-          - "--enable-tls=false"
         proxy:
           enabled: true
           webhooks:
@@ -30,6 +28,7 @@ spec:
             oidcUsernameClaim: "email"
             extraArgs:
             - "--feature-gates=ProxyClusterScoped=true"
+            - "--enable-ssl=false"
           serviceMonitor:
             enabled: true
             annotations:
