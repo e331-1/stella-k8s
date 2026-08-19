@@ -13,12 +13,14 @@ spec:
     chart: capsule
     helm:
       valuesObject:
-
         proxy:
           enabled: true
           webhooks:
             enabled: true
+          certManager:
+            generateCertificates: false
           options:
+            generateCertificates: false
             oidcUsernameClaim: "email"
             extraArgs:
             - "--feature-gates=ProxyClusterScoped=true"
