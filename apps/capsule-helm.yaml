@@ -1,25 +1,68 @@
-# capsule-helm/Application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: capsule
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
   annotations:
     #先にcert-managerをインストールするため、sync-waveを1に設定
     argocd.argoproj.io/sync-wave: "1"
 spec:
-  project: default
+  project: system
   source:
-    repoURL: 'https://projectcapsule.github.io/charts'
+    repoURL: ghcr.io/projectcapsule/charts
+    targetRevision: 0.13.11
     chart: capsule
-    targetRevision: 0.13.*
+    helm:
+      valuesObject:
+        proxy:
+          enabled: true
+          webhooks:
+            enabled: true
+          certManager:
+            generateCertificates: true
+          options:
+            generateCertificates: false
+            oidcUsernameClaim: "email"
+            extraArgs:
+            - "--feature-gates=ProxyClusterScoped=true"
+          serviceMonitor:
+            enabled: true
+            annotations:
+              argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: https://kubernetes.default.svc
     namespace: capsule-system
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
+    - ServerSideApply=true
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - RespectIgnoreDifferences=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: capsule-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: ghcr.io/projectcapsule/charts
+  name: capsule
+  project: system
+  type: helm
+  enableOCI: "true"
