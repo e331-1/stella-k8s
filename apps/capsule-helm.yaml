@@ -9,7 +9,7 @@ metadata:
     #先にcert-managerをインストールするため、sync-waveを1に設定
     argocd.argoproj.io/sync-wave: "1"
 spec:
-  project: system
+  project: default
   source:
     repoURL: ghcr.io/projectcapsule/charts
     targetRevision: 0.13.11
