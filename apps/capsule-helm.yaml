@@ -16,7 +16,9 @@ spec:
     chart: capsule
     helm:
       valuesObject:
+
         extraArgs:
+          - "--enable-tls=false"
         proxy:
           enabled: true
           webhooks:
@@ -28,7 +30,6 @@ spec:
             oidcUsernameClaim: "email"
             extraArgs:
             - "--feature-gates=ProxyClusterScoped=true"
-            - "--enable-tls=false"
           serviceMonitor:
             enabled: true
             annotations:
