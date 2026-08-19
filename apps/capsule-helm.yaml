@@ -15,9 +15,8 @@ spec:
       valuesObject:
         proxy:
           enabled: true
-          kind: Ingress
           webhooks:
-            enabled: true
+            enabled: false
           certManager:
             generateCertificates: false
           options:
