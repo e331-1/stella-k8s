@@ -13,17 +13,15 @@ spec:
     helm:
       values: |
         # 事前に作成したSecretを参照
-        secret:
-          name: cloudflare-tunnel-secret
-          key: api-token
-        # トンネルルーティング（Ingress Rules）設定
-        config:
+        cloudflare:
+          secretName: cloudflare-tunnel-secret
           ingress:
             - hostname: "pitpe.app"
               service: https://my-service.my-namespace.svc.cluster.local:443
             - hostname: "*.pitpe.app"
               service: https://my-service.my-namespace.svc.cluster.local:443
             - service: http_status:404
+        replicaCount: 1
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cloudflare-tunnel
