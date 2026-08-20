@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/cloudflared-config # config.yaml が置いてあるパス
+    path: manifests/cloudflared # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cloudflare-tunnel
