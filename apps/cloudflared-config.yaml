@@ -1,0 +1,19 @@
+#capsule-config/Application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflared-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/e331-1/stella-k8s.git'
+    targetRevision: HEAD
+    path: manifests/cloudflared-config # config.yaml が置いてあるパス
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: cloudflare-tunnel
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
