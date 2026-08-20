@@ -19,10 +19,10 @@ spec:
         # トンネルルーティング（Ingress Rules）設定
         config:
           ingress:
-            - hostname: pitpe.app
-              service: https://my-service.my-namespace.svc.cluster.local:80
-            - hostname: *.pitpe.app
-              service: https://my-service.my-namespace.svc.cluster.local:80
+            - hostname: "pitpe.app"
+              service: https://my-service.my-namespace.svc.cluster.local:443
+            - hostname: "*.pitpe.app"
+              service: https://my-service.my-namespace.svc.cluster.local:443
             - service: http_status:404
   destination:
     server: 'https://kubernetes.default.svc'
