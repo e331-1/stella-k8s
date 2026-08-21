@@ -7,25 +7,16 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://cloudflare.github.io/helm-charts'
-    chart: cloudflare-tunnel
-    targetRevision: 0.3.2
+    repoURL: 'https://repo.helmforge.dev'
+    chart: cloudflared
+    targetRevision: 1.5.14 
     helm:
       values: |
-        # 事前に作成したSecretを参照
-        cloudflare:
-          secretName: cloudflare-tunnel-secret
-          tunnelName: stella-tunnel
-          ingress:
-            - hostname: "pitpe.app"
-              service: https://my-service.my-namespace.svc.cluster.local:443
-              originRequest:
-                noTLSVerify: true # 内部HTTPSの証明書検証を無効化
-            - hostname: "*.pitpe.app"
-              service: https://my-service.my-namespace.svc.cluster.local:443
-              originRequest:
-                noTLSVerify: true # 内部HTTPSの証明書検証を無効化
-            - service: http_status:404
+        tunnel:
+          quickTunnel:
+            enabled: false
+          existingSecret: cloudflare-tunnel-secret
+          existingSecretKey: api-token
         replicaCount: 1
   destination:
     server: 'https://kubernetes.default.svc'
