@@ -12,7 +12,7 @@ spec:
     name: cloudflare-tunnel-secret # 生成される K8s Secret の名前
     creationPolicy: Owner
   data:
-    - secretKey: api-token   # 生成される K8s Secret 内のキー名
+    - secretKey: credentials.json   # 生成される K8s Secret 内のキー名、これじゃないどダメっぽい
       remoteRef:
         key: cloudflare/tunnel # Vault上のパス（secret/data/ の後は省略可）
         property: api-token         # Vault上のJSONフィールド名
