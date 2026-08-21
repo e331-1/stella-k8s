@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: cloudflare-tunnel-token
+  name: cloudflare-tunnel-credentials
   namespace: cloudflare-tunnel # cloudflaredを動かすNamespace
 spec:
   refreshInterval: "1h"       # Vaultからの自動同期インターバル
@@ -9,30 +9,17 @@ spec:
     name: vault-backend
     kind: ClusterSecretStore
   target:
-    name: cloudflare-tunnel-secret # 生成される K8s Secret の名前
+    name: cloudflare-tunnel-secret # 生成される 1つの K8s Secret の名前
     creationPolicy: Owner
   data:
-    - secretKey: credentials.json   # 生成される K8s Secret 内のキー名、これじゃないどダメっぽい
+    # 1つ目のキー: credentials.json
+    - secretKey: credentials.json
       remoteRef:
-        key: cloudflare/tunnel # Vault上のパス（secret/data/ の後は省略可）
-        property: api-token         # Vault上のJSONフィールド名
----
-# ExternalSecret マニフェスト
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: cloudflare-tunnel-cert
-  namespace: cloudflare-tunnel
-spec:
-  refreshInterval: "1h"
-  secretStoreRef:
-    name: vault-backend
-    kind: ClusterSecretStore
-  target:
-    name: cloudflare-tunnel-cert-secret # 生成される K8s Secret の名前
-    creationPolicy: Owner
-  data:
-    - secretKey: cert.pem        # マウント時のファイル名
+        key: cloudflare/tunnel
+        property: api-token
+
+    # 2つ目のキー: cert.pem
+    - secretKey: cert.pem
       remoteRef:
         key: cloudflare/tunnel
         property: cert.pem

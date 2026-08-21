@@ -27,21 +27,6 @@ spec:
                 noTLSVerify: true # 内部HTTPSの証明書検証を無効化
             - service: http_status:404
         replicaCount: 1
-      
-      volumeMounts:
-        - name: cert-volume
-          mountPath: /etc/cloudflared/cert.pem
-          subPath: cert.pem
-          readOnly: true
-
-      volumes:
-        - name: cert-volume
-          secret:
-            secretName: cloudflare-tunnel-cert-secret
-
-      env:
-        - name: TUNNEL_ORIGIN_CERT
-          value: /etc/cloudflared/cert.pem
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cloudflare-tunnel
