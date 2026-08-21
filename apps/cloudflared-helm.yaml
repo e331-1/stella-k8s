@@ -19,8 +19,12 @@ spec:
           ingress:
             - hostname: "pitpe.app"
               service: https://my-service.my-namespace.svc.cluster.local:443
+              originRequest:
+                noTLSVerify: true # 内部HTTPSの証明書検証を無効化
             - hostname: "*.pitpe.app"
               service: https://my-service.my-namespace.svc.cluster.local:443
+              originRequest:
+                noTLSVerify: true # 内部HTTPSの証明書検証を無効化
             - service: http_status:404
         replicaCount: 1
   destination:
