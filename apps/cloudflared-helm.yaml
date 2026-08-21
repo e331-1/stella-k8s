@@ -14,7 +14,8 @@ spec:
       values: |
         # 事前に作成したSecretを参照
         cloudflare:
-          tunnelName: "stella-tunnel"
+          account: "3e899cd9e094d5e5d664fbc4467f36dd"
+          tunnelId: "e1cab2f1-384b-4744-beaa-2410a7c312a1"
           secretName: cloudflare-tunnel-secret
           ingress:
             - hostname: "pitpe.app"
