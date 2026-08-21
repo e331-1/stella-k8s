@@ -14,8 +14,6 @@ spec:
       values: |
         # 事前に作成したSecretを参照
         cloudflare:
-          account: "3e899cd9e094d5e5d664fbc4467f36dd"
-          tunnelName: "stella-tunnel"
           secretName: cloudflare-tunnel-secret
           ingress:
             - hostname: "pitpe.app"
@@ -28,6 +26,21 @@ spec:
                 noTLSVerify: true # 内部HTTPSの証明書検証を無効化
             - service: http_status:404
         replicaCount: 1
+      
+      volumeMounts:
+        - name: cert-volume
+          mountPath: /etc/cloudflared/cert.pem
+          subPath: cert.pem
+          readOnly: true
+
+      volumes:
+        - name: cert-volume
+          secret:
+            secretName: cloudflare-tunnel-cert-secret
+
+      env:
+        - name: TUNNEL_ORIGIN_CERT
+          value: /etc/cloudflared/cert.pem
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cloudflare-tunnel

@@ -16,3 +16,23 @@ spec:
       remoteRef:
         key: cloudflare/tunnel # Vault上のパス（secret/data/ の後は省略可）
         property: api-token         # Vault上のJSONフィールド名
+---
+# ExternalSecret マニフェスト
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: cloudflare-tunnel-cert
+  namespace: cloudflare-tunnel
+spec:
+  refreshInterval: "1h"
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: cloudflare-tunnel-cert-secret # 生成される K8s Secret の名前
+    creationPolicy: Owner
+  data:
+    - secretKey: cert.pem        # マウント時のファイル名
+      remoteRef:
+        key: cloudflare/tunnel
+        property: cert.pem
