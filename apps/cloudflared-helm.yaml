@@ -16,7 +16,7 @@ spec:
           quickTunnel:
             enabled: false
           existingSecret: cloudflare-tunnel-secret
-          existingSecretKey: api-token
+          existingSecretKey:  credentials.json
         replicaCount: 1
   destination:
     server: 'https://kubernetes.default.svc'
