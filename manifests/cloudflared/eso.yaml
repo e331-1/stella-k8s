@@ -18,8 +18,8 @@ spec:
         key: cloudflare/tunnel
         property: api-token
 
-    # 2つ目のキー: cert.pem
-    - secretKey: cert.pem
-      remoteRef:
-        key: cloudflare/tunnel
-        property: cert.pem
+    # # 2つ目のキー: cert.pem
+    # - secretKey: cert.pem
+    #   remoteRef:
+    #     key: cloudflare/tunnel
+    #     property: cert.pem
