@@ -15,6 +15,7 @@ spec:
         # 事前に作成したSecretを参照
         cloudflare:
           secretName: cloudflare-tunnel-secret
+          tunnelName: stella-tunnel
           ingress:
             - hostname: "pitpe.app"
               service: https://my-service.my-namespace.svc.cluster.local:443
