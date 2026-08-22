@@ -94,6 +94,11 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     model    = "virtio"
     firewall = false   # 必要に応じて true/false を設定
   }
+  hostpci {
+    device = "hostpci0"
+    id = "0000:00:02.0"
+    mdev = "i915-GVTg_V5_4"
+  }
 
   boot_order = ["scsi0","ide2"]
 }
