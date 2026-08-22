@@ -113,13 +113,11 @@ EOT
       
       machine = {
         kernel = {
-          extraArgs = {
-            modules = [
-              { 
-                name = "i915"
-              }
-            ]
-          }
+          modules = [
+            { 
+              name = "i915"
+            }
+          ]
         }
         #cilium用
         # ★ localhost:7445 (KubePrism) を有効化して Cilium が API サーバーを見つけられるようにする
