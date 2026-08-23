@@ -14,7 +14,7 @@ data "talos_machine_configuration" "controlplane" {
   cluster_endpoint   = "https://${var.node_ip}:6443"
   machine_secrets    = talos_machine_secrets.this.machine_secrets
   kubernetes_version = "v1.36.2"
-  talos_version      = "v1.13.8"
+  talos_version      = "v1.13.9"
 
   # シングルノード（Taint解除）と静的IP設定をオーバーライド
   config_patches = [

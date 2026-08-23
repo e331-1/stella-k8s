@@ -62,6 +62,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     dedicated = 6144 # 4GB RAM
   }
   bios = "ovmf" # UEFIブートを有効化
+
   efi_disk {
     datastore_id = "local-lvm"
     file_format  = "raw"
@@ -72,13 +73,11 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     datastore_id = "local-lvm"
     size         = 20
     interface    = "scsi0"
-    file_format  = "raw"
+    iothread     = true
+    discard      = "on"
+    file_id = "local:import/nocloud-amd64-secureboot.raw"
   }
 
-  cdrom {
-    file_id      = "local:iso/talos-v1.13.8-amd64.iso"
-    interface    = "ide2"
-  }
   
   
 
@@ -92,7 +91,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
   network_device {
     bridge   = "vmbr0" # 物理ブリッジ
     model    = "virtio"
-    firewall = false   # 必要に応じて true/false を設定
+    firewall = true    # 必要に応じて true/false を設定
   }
   hostpci {
     device = "hostpci0"
@@ -100,5 +99,5 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     mdev = "i915-GVTg_V5_4"
   }
 
-  boot_order = ["scsi0","ide2"]
+  boot_order = ["scsi0"]
 }
