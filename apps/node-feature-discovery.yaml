@@ -1,4 +1,3 @@
-# capsule-helm/Application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,9 +8,16 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'registry.k8s.io/nfd/charts'
+    # 1. oci:// プレフィックスを付ける
+    repoURL: 'oci://registry.k8s.io/nfd/charts'
     chart: node-feature-discovery
-    targetRevision: 1.19.0
+    # 2. バージョン頭に 'v' を付ける (ログに出ていた v0.17.1 などを指定)
+    targetRevision: v0.17.1
+    helm:
+      values: |
+        # 前回問題になっていた worker 起動のフラグも合わせて設定
+        worker:
+          enable: true
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: node-feature-discovery
