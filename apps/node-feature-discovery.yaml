@@ -8,11 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    # 1. oci:// プレフィックスを付ける
-    repoURL: 'oci://registry.k8s.io/nfd/charts'
+    repoURL: 'registry.k8s.io/nfd/charts'
     chart: node-feature-discovery
-    # 2. バージョン頭に 'v' を付ける (ログに出ていた v0.17.1 などを指定)
-    targetRevision: v0.19.0
+    targetRevision: 0.19.0
     helm:
       values: |
         # 前回問題になっていた worker 起動のフラグも合わせて設定
