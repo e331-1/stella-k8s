@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'oci://registry.k8s.io/nfd/charts'
+    repoURL: 'registry.k8s.io/nfd/charts'
     chart: node-feature-discovery
     targetRevision: 1.19.0
   destination:
