@@ -48,7 +48,7 @@ resource "null_resource" "patch_proxmox_ccm_deployment" {
    command = "kubectl --kubeconfig=${local_file.kubeconfig.filename} patch deployment proxmox-cloud-controller-manager -n kube-system --type='json' -p='[{\"op\": \"add\",\"path\": \"/spec/template/spec/containers/0/args/-\",\"value\": \"--controllers=*\"}]'"
   }
   depends_on = [
-    time_sleep.wait_for_k8s_api
+    helm_release.argocd
   ]
 }
 
