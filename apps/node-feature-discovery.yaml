@@ -16,6 +16,13 @@ spec:
         # 前回問題になっていた worker 起動のフラグも合わせて設定
         worker:
           enable: true
+          tolerations:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+              effect: "NoSchedule"
+            - key: "node-role.kubernetes.io/master"
+              operator: "Exists"
+              effect: "NoSchedule"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: node-feature-discovery
