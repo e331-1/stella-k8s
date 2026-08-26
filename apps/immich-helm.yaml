@@ -12,7 +12,7 @@ spec:
     helm:
       valuesObject: 
         valkey:
-          enabled: truel
+          enabled: true
         controllers:
           main:
             containers:
