@@ -11,41 +11,14 @@ spec:
     repoURL: ' https://cloudnative-pg.github.io/charts'
     chart: cnpg
     targetRevision: 0.29.0 # お使いのチャートバージョン
-    helm:
-      values: |
-        server:
-          env:
-            LIBVA_DRIVER_NAME: "iHD"
-          resources:
-            limits:
-              gpu.intel.com/i915: "1"
-            requests:
-              gpu.intel.com/i915: "1"
-        
-        immich:
-          persistence:
-            # Main data store for all photos shared between different components.
-            library:
-              # Automatically creating the library volume is not supported by this chart
-              # You have to specify an existing PVC to use
-              existingClaim: "immich-data-pvc"
-        machine-learning:
-          enabled: true
-          persistence:
-            cache:
-              enabled: true
-              type: emptyDir
-              # Optional: to avoid downloading the ML models on every start, replace `type: emptyDir` above with:
-              #   type: persistentVolumeClaim
-              #   size: 10Gi
-              #   accessMode: ReadWriteMany
-              #   # storageClass: your-class
-
 
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: immich
+    namespace: cnpg-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
