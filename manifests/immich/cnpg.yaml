@@ -20,9 +20,8 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
 
   postgresql:
-    parameters:
-      shared_preload_libraries:
-        - "vchord.so"
+    shared_preload_libraries:
+      - "vchord.so"
 
     # This extension is loaded via the Database CRD at cloudnative-pg-database.yaml
     extensions:
