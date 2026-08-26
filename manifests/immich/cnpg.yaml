@@ -5,8 +5,17 @@ metadata:
 spec:
   instances: 1
 
+  bootstrap:
+    initdb:
+      database: app        # 作成するデフォルトのデータベース名
+      owner: app           # オーナーユーザー名
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vector CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+
   storage:
     size: 1Gi
+    storageClass: storage-01
 
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
 

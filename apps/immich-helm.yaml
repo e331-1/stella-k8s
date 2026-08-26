@@ -11,6 +11,8 @@ spec:
     targetRevision: 0.13.1 # お使いのチャートバージョン
     helm:
       valuesObject: 
+        valkey:
+          enabled: truel
         controllers:
           main:
             containers:
