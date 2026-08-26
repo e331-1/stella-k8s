@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-data-pvc
+  namespace: immich
+spec:
+  accessModes:
+    - ReadWriteOnce # 単一ノードからの読み書き
+  storageClassName: storage-01 # Step 1 で作成した StorageClass 名
+  resources:
+    requests:
+      storage: 10Gi # 確保したい容量

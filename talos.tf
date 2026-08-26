@@ -64,7 +64,7 @@ EOT
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: proxmox-local-lvm
+  name: storage-01
   annotations:
     storageclass.kubernetes.io/is-default-class: "true" # デフォルトにしたい場合は追加
 provisioner: csi.proxmox.sinextra.dev

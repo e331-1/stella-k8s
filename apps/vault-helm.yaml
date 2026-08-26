@@ -28,7 +28,7 @@ spec:
             enabled: true
             size: 10Gi
             # ここにご自身のProxmox CSIのStorageClass名を指定します
-            storageClass: "proxmox-local-lvm"
+            storageClass: "storage-01"
             accessMode: ReadWriteOnce
 
         # Web UIを有効化

@@ -75,7 +75,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
-    file_id = "local:import/nocloud-amd64-secureboot.raw"
+    file_id = "local:import/talos-1.13.9.raw"
   }
 
   
