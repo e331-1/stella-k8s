@@ -9,7 +9,7 @@ spec:
     initdb:
       database: app        # 作成するデフォルトのデータベース名
       owner: app           # オーナーユーザー名
-      postInitSQL:
+      postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector CASCADE;
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
