@@ -9,9 +9,10 @@ spec:
   project: default
   source:
     repoURL: 'https://cloudnative-pg.github.io/charts'
-    chart: cnpg
+    chart: cloudnative-pg
     targetRevision: 0.29.0 # お使いのチャートバージョン
-
+    helm:
+      releaseName: cnpg
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cnpg-system
