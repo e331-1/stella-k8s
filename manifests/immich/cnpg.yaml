@@ -12,6 +12,8 @@ spec:
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector CASCADE;
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS cube CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;
 
   storage:
     size: 1Gi
