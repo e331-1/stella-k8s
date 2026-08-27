@@ -12,6 +12,11 @@ resource "proxmox_virtual_environment_role" "ccm" {
   ]
 }
 
+import {
+  to = proxmox_virtual_environment_role.ccm
+  id = "CCM"
+}
+
 resource "proxmox_virtual_environment_user" "kubernetes" {
 
   comment = "Kubernetes"
@@ -68,6 +73,12 @@ resource "proxmox_virtual_environment_role" "csi" {
     "Datastore.Audit",
   ]
 }
+
+import {
+  to = proxmox_virtual_environment_role.csi
+  id = "Kubernetes-CSI"
+}
+
 
 resource "proxmox_virtual_environment_user" "kubernetes-csi" {
   acl {

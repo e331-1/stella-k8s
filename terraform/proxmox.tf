@@ -79,14 +79,23 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     file_id = "local:import/talos-1.13.9.raw"
   }
 
+  initialization {
+    ip_config {
+      ipv4 {
+        address = "${var.node_ip}/24"
+        gateway = var.gateway_ip
+
+      }
+    }
+  }
   
   
 
   network_device {
-    bridge   = "vnetk8s" # SDN VNet
+    bridge   = var.environment == "production" ? "vnetk8s" : "k8sDEV" # SDN VNet
     model    = "virtio"
     firewall = true    # このNICでファイアウォールを有効化
-    mac_address = "BC:24:11:CB:45:C8" # ★ MACアドレスを明示的に固定
+    # mac_address = "BC:24:11:CB:45:C8" # ★ MACアドレスを明示的に固定
   }
 
   network_device {
