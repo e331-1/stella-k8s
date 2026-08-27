@@ -13,5 +13,5 @@ resources:
   - immich-helm.yaml
   - immich-manifests.yaml
   - intel-gpu-plugin.yaml
-  - node-feature-discovery.yaml
+  - node-feature-discovery-helm.yaml
   - vault-helm.yaml

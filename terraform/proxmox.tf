@@ -47,7 +47,7 @@ resource "proxmox_virtual_environment_firewall_rules" "security_group_rules" {
 resource "proxmox_virtual_environment_vm" "talos_single" {
   name      = var.vm_name
   node_name = var.node_name
-  vm_id     = 200
+  vm_id     = var.vm_id
 
   agent {
     enabled = true # QEMU Guest Agent

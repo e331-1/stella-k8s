@@ -50,6 +50,12 @@ variable "environment" {
   
 # }
 
+
+variable "vm_id" {
+  type    = string
+  default = "300"
+}
+
 variable "vm_name" {
   type    = string
   default = "talos-single"
