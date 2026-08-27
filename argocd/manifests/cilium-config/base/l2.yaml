@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: l2-policy
+  namespace: kube-system
+spec:
+  # L2 応答を返すネットワークインターフェース（例: eth0）
+  # 空指定や eth0 の指定でノードのメインNICからARP応答を返します
+  interfaces:
+    - "ens19"
+  externalIPs: true
+  loadBalancerIPs: true

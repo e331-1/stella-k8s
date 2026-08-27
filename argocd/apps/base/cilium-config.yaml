@@ -2,22 +2,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-config
+  name: cilium-config
   namespace: argocd
   annotations:
-    #cert-managerの後にデプロイするため、sync-waveを1に設定
-    #argocd.argoproj.io/sync-wave: "1"
+    #capsule-helmの後にデプロイするため、sync-waveを2に設定
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    # path: manifests/cert-manager-config # config.yaml が置いてあるパス
-    path: "manifests/cert-manager-config/overlays/{{ cert_manager_env | default('staging') }}"
+    path: argocd/manifests/cilium-config # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      

@@ -1,20 +1,18 @@
+#capsule-config/Application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-httproute
+  name: cloudflared-config
   namespace: argocd
-  annotations:
-    #capsule-helmの後にデプロイするため、sync-waveを2に設定
-    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/httproute # config.yaml が置いてあるパス
+    path: argocd/manifests/cloudflared # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: argocd
+    namespace: cloudflare-tunnel
   syncPolicy:
     automated:
       prune: true

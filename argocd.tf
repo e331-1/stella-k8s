@@ -84,7 +84,7 @@ resource "kubectl_manifest" "root_application" {
       source = {
         repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
         targetRevision = "HEAD"
-        path           = "apps" # リポジトリ内のディレクトリパス
+        path           = "argocd/apps/overlays/${var.environment}" # リポジトリ内のディレクトリパス
       }
       destination = {
         server    = "https://kubernetes.default.svc"
@@ -105,38 +105,3 @@ resource "kubectl_manifest" "root_application" {
     helm_release.argocd
   ]
 }
-
-resource "kubectl_manifest" "cert_manager_config_app" {
-  yaml_body = yamlencode({
-    apiVersion = "argoproj.io/v1alpha1"
-    kind       = "Application"
-    metadata = {
-      name      = "cert-manager-config"
-      namespace = "argocd"
-    }
-    spec = {
-      project = "default"
-      source = {
-        repoURL        = "https://github.com/e331-1/stella-k8s.git"
-        targetRevision = "HEAD"
-        # ★ ここで Kustomize overlay (production / staging) を動的に切り替えます
-        path           = "manifests/cert-manager-config/overlays/${var.environment}"
-      }
-      destination = {
-        server    = "https://kubernetes.default.svc"
-      }
-      syncPolicy = {
-        automated = {
-          prune    = true
-          selfHeal = true
-        }
-      }
-    }
-  })
-
-  depends_on = [
-    helm_release.argocd
-  ]
-}
-
-

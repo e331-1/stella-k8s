@@ -59,8 +59,8 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
   }
 
   memory {
-    dedicated = 6144 # 4GB RAM
-    floating = 6144
+    dedicated = 8192 # 4GB RAM
+    floating = 8192
   }
   bios = "ovmf" # UEFIブートを有効化
 

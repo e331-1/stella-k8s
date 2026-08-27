@@ -15,7 +15,7 @@ resource "proxmox_virtual_environment_role" "ccm" {
 resource "proxmox_virtual_environment_user" "kubernetes" {
 
   comment = "Kubernetes"
-  user_id = "kubernetes@pve"
+  user_id = "kubernetes${var.environment == "production" ? "" : "-dev"}@pve"
 }
 
 # ユーザー自身への ACL は分離して定義する
@@ -77,7 +77,7 @@ resource "proxmox_virtual_environment_user" "kubernetes-csi" {
   }
 
   comment = "Kubernetes"
-  user_id = "kubernetes-csi@pve"
+  user_id = "kubernetes-csi${var.environment == "production" ? "" : "-dev"}@pve"
 }
 
 resource "proxmox_virtual_environment_user_token" "csi" {

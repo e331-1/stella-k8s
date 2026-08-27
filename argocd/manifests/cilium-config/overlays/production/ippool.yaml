@@ -1,0 +1,9 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: lan-pool
+  namespace: kube-system
+spec:
+  blocks:
+    - start: "192.168.0.200"
+      stop: "192.168.0.254"
