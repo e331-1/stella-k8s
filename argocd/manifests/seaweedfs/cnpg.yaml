@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: seaweedfs-database
+spec:
+  instances: 1
+
+  storage:
+    size: 1Gi
+    # storageClass: storage-01
+
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie

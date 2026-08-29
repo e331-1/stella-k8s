@@ -17,7 +17,7 @@ spec:
 
   storage:
     size: 1Gi
-    storageClass: storage-01
+    # storageClass: storage-01
 
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
 
