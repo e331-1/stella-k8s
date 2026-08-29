@@ -142,14 +142,7 @@ EOT
             {
               # 1つ目のNIC (vnetk8s 側) - ノード自身の通信用
               interface = "ens18" # ※必要に応じて ens18 に変更
-              dhcp      = false
-              addresses = ["${var.node_ip}/24"]
-              routes = [
-                {
-                  network = "0.0.0.0/0"
-                  gateway = var.gateway_ip
-                }
-              ]
+              dhcp      = true
             },
             {
               # ★ 2つ目のNIC (vmbr0 側) - Cilium L2 Announcement 専有

@@ -83,7 +83,7 @@ resource "kubectl_manifest" "root_application" {
       project = "default"
       source = {
         repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
-        targetRevision = "HEAD"
+        targetRevision = "${var.environment== "production" ? "main" : "develop"}" # ブランチ名
         path           = "argocd/apps/overlays/${var.environment}" # リポジトリ内のディレクトリパス
       }
       destination = {

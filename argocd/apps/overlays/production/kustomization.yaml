@@ -6,3 +6,4 @@ resources:
 
 patches:
   - path: patch-cert-manager-config.yaml
+  - path: patch-cilium-config.yaml

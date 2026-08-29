@@ -25,13 +25,13 @@ variable "node_name" {
 
 variable "node_ip" {
   type    = string
-  default = "10.0.1.2" # VMに割り当てるIP
+  default = "10.0.2.2" # VMに割り当てるIP
 }
 
-variable "gateway_ip" {
-  type    = string
-  default = "10.0.1.1"
-}
+# variable "gateway_ip" {
+#   type    = string
+#   default = "10.0.1.1"
+# }
 
 variable "environment" {
   type        = string

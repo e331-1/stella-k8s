@@ -1,0 +1,9 @@
+#capsule-config/Application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium-config
+  namespace: argocd
+spec:
+  source:
+    path: argocd/manifests/cilium-config/overlays/development

@@ -6,3 +6,10 @@ resources:
 
 patches:
   - path: patch-cert-manager-config.yaml
+  - path: patch-cilium-config.yaml
+  - target:
+      kind: Application
+    patch: |-
+      - op: replace
+        path: /spec/source/targetRevision
+        value: "develop"
