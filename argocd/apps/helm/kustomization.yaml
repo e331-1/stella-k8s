@@ -9,3 +9,4 @@ resources:
   - immich-helm.yaml
   - node-feature-discovery-helm.yaml
   - vault-helm.yaml
+  - seaweedfs-helm.yaml

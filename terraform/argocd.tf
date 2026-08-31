@@ -81,7 +81,7 @@ resource "kubectl_manifest" "root_application" {
     }
     spec = {
       project = "default"
-      source = [
+      sources = [
         {
           repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
           targetRevision = "${var.environment== "production" ? "main" : "develop"}" # ブランチ名

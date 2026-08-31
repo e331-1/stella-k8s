@@ -9,3 +9,4 @@ resources:
   - cloudflared-config.yaml
   - immich-manifests.yaml
   - intel-gpu-plugin.yaml
+  - seaweedfs-manifests.yaml
