@@ -81,11 +81,18 @@ resource "kubectl_manifest" "root_application" {
     }
     spec = {
       project = "default"
-      source = {
-        repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
-        targetRevision = "${var.environment== "production" ? "main" : "develop"}" # ブランチ名
-        path           = "argocd/apps/overlays/${var.environment}" # リポジトリ内のディレクトリパス
-      }
+      source = [
+        {
+          repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
+          targetRevision = "${var.environment== "production" ? "main" : "develop"}" # ブランチ名
+          path           = "argocd/apps/helm" # リポジトリ内のディレクトリパス
+        },
+        {
+          repoURL        = "https://github.com/e331-1/stella-k8s.git" # 対象リポジトリ
+          targetRevision = "${var.environment== "production" ? "main" : "develop"}" # ブランチ名
+          path           = "argocd/apps/manifests/overlays/${var.environment}" # リポジトリ内のディレクトリパス
+        }
+      ]
       destination = {
         server    = "https://kubernetes.default.svc"
         namespace = "argocd"

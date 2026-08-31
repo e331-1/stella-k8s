@@ -2,16 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - argocd-httproute.yaml
-  - cert-manager-config.yaml
   - cert-manager-helm.yaml
-  - cilium-config.yaml
-  - cloudflared-config.yaml
   - cloudflared-helm.yaml
   - cloudnative-pg-helm.yaml
   - external-secrets-helm.yaml
   - immich-helm.yaml
-  - immich-manifests.yaml
-  - intel-gpu-plugin.yaml
   - node-feature-discovery-helm.yaml
   - vault-helm.yaml
