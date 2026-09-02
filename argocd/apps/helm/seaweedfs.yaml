@@ -13,6 +13,9 @@ spec:
     targetRevision: 4.44.0
     helm:
       valuesObject:
+        global:
+          logging:
+            enabled: false #talosだとルートにファイル作ったりできなくてエラーが出るらしい
         filer:
           secretExtraEnvironmentVars:
             WEED_POSTGRES_USERNAME:
@@ -43,6 +46,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: privileged
+    # managedNamespaceMetadata:
+    #   labels:
+    #     pod-security.kubernetes.io/enforce: privileged
