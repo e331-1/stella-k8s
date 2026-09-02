@@ -13,7 +13,7 @@ spec:
     targetRevision: 0.2.36
     helm:
       valuesObject:
-        seaweedfsFiler:  "SEAWEEDFS_FILER:8888"
+        seaweedfsFiler:  "seaweedfs-filer.seaweedfs.svc.cluster.local:8888"
 
   destination:
     server: 'https://kubernetes.default.svc'

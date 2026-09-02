@@ -10,4 +10,4 @@ resources:
   - node-feature-discovery.yaml
   - vault.yaml
   - seaweedfs.yaml
-  # - seaweedfs-csi-driver.yaml
+  - seaweedfs-csi-driver.yaml
