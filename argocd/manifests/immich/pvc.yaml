@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce # 単一ノードからの読み書き
-  storageClassName: storage-01 # Step 1 で作成した StorageClass 名
+  storageClassName: seaweedfs-storage 
   resources:
     requests:
       storage: 10Gi # 確保したい容量
