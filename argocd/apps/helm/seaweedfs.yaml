@@ -13,9 +13,6 @@ spec:
     targetRevision: 4.44.0
     helm:
       valuesObject:
-        global:
-          logging:
-            enabled: false #talosだとルートにファイル作ったりできなくてエラーが出るらしい
         filer:
           secretExtraEnvironmentVars:
             WEED_POSTGRES_USERNAME:
@@ -30,6 +27,9 @@ spec:
           data:
             type: "persistentVolumeClaim"
             size: "5Gi"
+          logs:
+            type: "persistentVolumeClaim"
+            size: "1Gi"
         volume:
           dataDirs:
             - name: data
