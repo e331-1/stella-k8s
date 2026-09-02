@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs-csi-driver
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: 'https://seaweedfs.github.io/seaweedfs-csi-driver/helm'
+    chart: seaweedfs-csi-driver
+    targetRevision: 0.2.36
+    helm:
+      valuesObject:
+        seaweedfsFiler:  "SEAWEEDFS_FILER:8888"
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: seaweedfs-csi-driver
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

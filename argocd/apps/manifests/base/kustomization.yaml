@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
 
   - argocd-httproute.yaml
-  - cert-manager-config.yaml
-  - cilium-config.yaml
-  - cloudflared-config.yaml
-  - immich-manifests.yaml
+  - cert-manager.yaml
+  - cilium.yaml
+  - cloudflared.yaml
+  - immich.yaml
   - intel-gpu-plugin.yaml
-  - seaweedfs-manifests.yaml
+  - seaweedfs.yaml

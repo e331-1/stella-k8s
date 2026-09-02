@@ -2,11 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - cert-manager-helm.yaml
-  - cloudflared-helm.yaml
-  - cloudnative-pg-helm.yaml
-  - external-secrets-helm.yaml
-  - immich-helm.yaml
-  - node-feature-discovery-helm.yaml
-  - vault-helm.yaml
-  - seaweedfs-helm.yaml
+  - cert-manager.yaml
+  - cloudflared.yaml
+  - cloudnative-pg.yaml
+  - external-secrets.yaml
+  - immich.yaml
+  - node-feature-discovery.yaml
+  - vault.yaml
+  - seaweedfs.yaml
+  # - seaweedfs-csi-driver.yaml

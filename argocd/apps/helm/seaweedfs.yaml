@@ -29,8 +29,9 @@ spec:
             size: "5Gi"
         volume:
           dataDirs:
-            type: "persistentVolumeClaim"
-            size: 20Gi 
+            - name: data
+              type: "persistentVolumeClaim"
+              size: 20Gi 
 
 
   destination:
