@@ -14,6 +14,7 @@ spec:
     helm:
       valuesObject:
         filer:
+          enablePVC: true
           logs:
             type: "persistentVolumeClaim"
             size: "1Gi"
