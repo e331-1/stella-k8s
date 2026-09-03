@@ -159,7 +159,20 @@ EOT
       kind       = "HostnameConfig"
       hostname   = var.vm_name # または "talos-single"
       auto       = "off"
-    })
+    }),
+    yamlencode({
+      apiVersion = "v1alpha1"
+      kind       = "UserVolumeConfig"
+      name="seaweedfs"
+      provisioning={
+        diskSelector={
+          match="disk.serial=='seaweedfs-data-disk'"
+        }
+        minSize="10GiB"
+        grow=true
+      }
+    }),
+    
   ]
 
 }

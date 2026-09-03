@@ -79,6 +79,15 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     file_id = "local:import/talos-1.13.9.raw"
   }
   
+
+  disk {
+    datastore_id = var.environment == "production" ? "storage-01" : "storage-01-dev" # SDN VNet
+    size         = 20
+    interface    = "scsi0"
+    iothread     = true
+    discard      = "on"
+    serial = "seaweedfs-data-disk"
+  }
   
 
   network_device {
