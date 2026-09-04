@@ -14,10 +14,12 @@ spec:
     helm:
       valuesObject:
         filer:
-          enablePVC: true
+          data:
+            type: "hostPath"
+            hostPath: /var/mnt/seaweedfs
           logs:
-            type: "persistentVolumeClaim"
-            size: "1Gi"
+            type: "hostPath"
+            hostPath: /var/mnt/seaweedfs
           secretExtraEnvironmentVars:
             WEED_POSTGRES_USERNAME:
               secretKeyRef:
@@ -29,16 +31,20 @@ spec:
                 key: password
         master:
           data:
-            type: "persistentVolumeClaim"
-            size: "5Gi"
+            type: "hostPath"
+            hostPath: /var/mnt/seaweedfs
           logs:
-            type: "persistentVolumeClaim"
-            size: "1Gi"
+            type: "hostPath"
+            hostPath: /var/mnt/seaweedfs
         volume:
           dataDirs:
-            - name: data
-              type: "persistentVolumeClaim"
-              size: 20Gi 
+            - name: data1
+              type: "hostPath"
+              hostPath: /var/mnt/seaweedfs
+              maxVolumes: 0
+          logs:
+            type: "hostPath"
+            hostPath: /var/mnt/seaweedfs
 
   destination:
     server: 'https://kubernetes.default.svc'

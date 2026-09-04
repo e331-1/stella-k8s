@@ -83,7 +83,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
   disk {
     datastore_id = var.environment == "production" ? "storage-01" : "storage-01-dev" # SDN VNet
     size         = 20
-    interface    = "scsi0"
+    interface    = "scsi1"
     iothread     = true
     discard      = "on"
     serial = "seaweedfs-data-disk"
