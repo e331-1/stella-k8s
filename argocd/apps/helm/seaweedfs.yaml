@@ -16,10 +16,10 @@ spec:
         filer:
           data:
             type: "hostPath"
-            hostPath: /var/mnt/seaweedfs
+            hostPathPrefix: /var/mnt/seaweedfs
           logs:
             type: "hostPath"
-            hostPath: /var/mnt/seaweedfs
+            hostPathPrefix: /var/mnt/seaweedfs
           secretExtraEnvironmentVars:
             WEED_POSTGRES_USERNAME:
               secretKeyRef:
@@ -32,19 +32,19 @@ spec:
         master:
           data:
             type: "hostPath"
-            hostPath: /var/mnt/seaweedfs
+            hostPathPrefix: /var/mnt/seaweedfs
           logs:
             type: "hostPath"
-            hostPath: /var/mnt/seaweedfs
+            hostPathPrefix: /var/mnt/seaweedfs
         volume:
           dataDirs:
             - name: data1
               type: "hostPath"
-              hostPath: /var/mnt/seaweedfs
+              hostPathPrefix: /var/mnt/seaweedfs
               maxVolumes: 0
           logs:
             type: "hostPath"
-            hostPath: /var/mnt/seaweedfs
+            hostPathPrefix: /var/mnt/seaweedfs
 
   destination:
     server: 'https://kubernetes.default.svc'
