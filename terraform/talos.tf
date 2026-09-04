@@ -166,7 +166,7 @@ EOT
       name="seaweedfs"
       provisioning={
         diskSelector={
-          match="disk.serial=='seaweedfs-data'"
+          match="disk.dev_path == '/dev/sdb'"
         }
         minSize="10GiB"
         grow=true

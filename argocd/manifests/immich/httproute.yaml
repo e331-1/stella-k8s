@@ -16,4 +16,4 @@ spec:
             value: /
       backendRefs:
         - name: immich-server
-          port: 80 # HTTPの場合。HTTPSバックエンドなら443
+          port: 2283 # HTTPの場合。HTTPSバックエンドなら443

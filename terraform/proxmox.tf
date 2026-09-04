@@ -86,7 +86,6 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
     interface    = "scsi1"
     iothread     = true
     discard      = "on"
-    serial = "seaweedfs-data"
   }
   
 
