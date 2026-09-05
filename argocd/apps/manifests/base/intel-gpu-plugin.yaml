@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/e331-1/stella-k8s.git'
     targetRevision: HEAD
-    path: manifests/intel-gpu-plugin # config.yaml が置いてあるパス
+    path: argocd/manifests/intel-gpu-plugin # config.yaml が置いてあるパス
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: intel-gpu-plugin
