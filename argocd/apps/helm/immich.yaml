@@ -26,7 +26,7 @@ spec:
             containers:
               main:
                 image:
-                  tag: v3.0.0
+                  tag: v3.1.0
                 env:
                   # Add the env vars to connect to your database here. see the example below
                   #
