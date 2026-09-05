@@ -6,7 +6,6 @@ resources:
   - argocd-httproute.yaml
   - cert-manager.yaml
   - cilium.yaml
-  - cloudflared.yaml
   - immich.yaml
   - intel-gpu-plugin.yaml
   - seaweedfs.yaml
