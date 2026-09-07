@@ -1,5 +1,5 @@
 data "talos_client_configuration" "this" {
-  cluster_name         = "stella-k8s"
+  cluster_name         = "stella-k8s-${var.environment}"
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoints            = [var.node_ip]
 }
@@ -206,17 +206,4 @@ resource "talos_cluster_kubeconfig" "kubeconfig" {
   node                 = var.node_ip
 
   depends_on = [talos_machine_bootstrap.bootstrap]
-}
-
-# --- 7. ローカルに kubeconfig と talosconfig ファイルを出力 ---
-resource "local_file" "kubeconfig" {
-  content  = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw # ★ data. を削除
-  # filename = "${path.module}/kubeconfig"
-  filename = pathexpand("~/.kube/config")
-}
-
-
-resource "local_file" "talosconfig" {
-  content  = data.talos_client_configuration.this.talos_config
-  filename = pathexpand("~/.talos/config")
 }

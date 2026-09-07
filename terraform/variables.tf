@@ -1,3 +1,4 @@
+
 variable "proxmox_endpoint" {
   type    = string
   default = "https://192.168.0.100:8006/"

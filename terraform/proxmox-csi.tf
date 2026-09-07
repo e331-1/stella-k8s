@@ -47,16 +47,42 @@ resource "proxmox_virtual_environment_acl" "ccm" {
 
 
 
-resource "null_resource" "patch_proxmox_ccm_deployment" {
-  provisioner "local-exec" {
-    # ★ --validate=false を追加して余計な OpenAPI スキーマ取得通信によるエラーを防止
-   command = "kubectl --kubeconfig=${local_file.kubeconfig.filename} patch deployment proxmox-cloud-controller-manager -n kube-system --type='json' -p='[{\"op\": \"add\",\"path\": \"/spec/template/spec/containers/0/args/-\",\"value\": \"--controllers=*\"}]'"
-  }
+resource "kubectl_manifest" "patch_proxmox_ccm" {
+  yaml_body = <<YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxmox-cloud-controller-manager
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: proxmox-cloud-controller-manager # コンテナ名を適宜合わせてください
+          args:
+            - --v=4
+            - --cloud-provider=proxmox
+            - --cloud-config=/etc/proxmox/config.yaml
+            - --controllers=cloud-node,cloud-node-lifecycle
+            - --leader-elect-resource-name=cloud-controller-manager-proxmox
+            - --use-service-account-credentials
+            - --secure-port=10258
+            - --authorization-always-allow-paths=/healthz,/livez,/readyz,/metrics
+
+            - "--controllers=*"
+YAML
+
+  # すでにあるリソースを上書き・パッチ統合する設定
+  force_new      = false
+  server_side_apply = true
+  
+  # 強制的に競合を解消して上書き適用する設定を追加
+  force_conflicts = true
+
   depends_on = [
     helm_release.argocd
   ]
 }
-
 
 # ------------------------------------------------------------------------------
 # CSIのインストール

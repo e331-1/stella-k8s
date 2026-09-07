@@ -31,11 +31,18 @@ provider "kubectl" {
 
 # 1. 公式 GitHub から Gateway API の CRD YAML を取得
 # 1. Gateway API CRD を公式 YAML から直接適用
-resource "null_resource" "gateway_api_crds" {
-  provisioner "local-exec" {
-    # ★ --validate=false を追加して余計な OpenAPI スキーマ取得通信によるエラーを防止
-    command = "kubectl --kubeconfig=${local_file.kubeconfig.filename} apply --validate=false -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml"
-  }
+data "http" "gateway_crd_manifests" {
+  url = "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml"
+}
+
+data "kubectl_file_documents" "gateway_crds" {
+  content = data.http.gateway_crd_manifests.response_body
+}
+
+resource "kubectl_manifest" "gateway_api_crds" {
+  for_each  = data.kubectl_file_documents.gateway_crds.manifests
+  yaml_body = each.value
+
   depends_on = [
     time_sleep.wait_for_k8s_api
   ]
@@ -111,7 +118,7 @@ resource "helm_release" "cilium" {
   ]
 
   depends_on = [
-    null_resource.gateway_api_crds
+    kubectl_manifest.gateway_api_crds
   ]
 }
 
