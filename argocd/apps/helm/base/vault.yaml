@@ -27,8 +27,7 @@ spec:
           dataStorage:
             enabled: true
             size: 10Gi
-            # ここにご自身のProxmox CSIのStorageClass名を指定します
-            storageClass: "storage-01"
+            storageClass: "seaweedfs-storage"
             accessMode: ReadWriteOnce
 
         # Web UIを有効化

@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+
+  - argocd-httproute.yaml
+  - cert-manager.yaml
+  - cilium.yaml
+  - immich.yaml
+  - intel-gpu-plugin.yaml
+  - seaweedfs.yaml

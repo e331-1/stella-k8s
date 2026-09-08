@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: 'https://seaweedfs.github.io/seaweedfs/helm'
+    chart: seaweedfs
+    targetRevision: 4.44.0
+    helm:
+      valuesObject:
+        filer:
+          data:
+            type: "hostPath"
+            hostPathPrefix: /var/mnt/seaweedfs
+          logs:
+            type: "hostPath"
+            hostPathPrefix: /var/mnt/seaweedfs
+          secretExtraEnvironmentVars:
+            WEED_POSTGRES_USERNAME:
+              secretKeyRef:
+                name: seaweedfs-database-app
+                key: username
+            WEED_POSTGRES_PASSWORD:
+              secretKeyRef:
+                name: seaweedfs-database-app
+                key: password
+        master:
+          data:
+            type: "hostPath"
+            hostPathPrefix: /var/mnt/seaweedfs
+          logs:
+            type: "hostPath"
+            hostPathPrefix: /var/mnt/seaweedfs
+        volume:
+          dataDirs:
+            - name: data1
+              type: "hostPath"
+              hostPathPrefix: /var/mnt/seaweedfs
+              maxVolumes: 0
+          logs:
+            type: "hostPath"
+            hostPathPrefix: /var/mnt/seaweedfs
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: seaweedfs
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged

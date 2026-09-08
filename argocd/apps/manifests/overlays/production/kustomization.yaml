@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../base # ベースのファイル参照
+  - cloudflared.yaml
 
 patches:
   - path: patch-cert-manager-config.yaml

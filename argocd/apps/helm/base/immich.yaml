@@ -13,12 +13,20 @@ spec:
       valuesObject: 
         valkey:
           enabled: true
+        server:
+          env:
+            LIBVA_DRIVER_NAME: "iHD"
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
+            requests:
+              gpu.intel.com/i915: "1"
         controllers:
           main:
             containers:
               main:
                 image:
-                  tag: v3.0.0
+                  tag: v3.1.0
                 env:
                   # Add the env vars to connect to your database here. see the example below
                   #
@@ -43,14 +51,6 @@ spec:
                         name: immich-database-app
                         key: password
 
-        server:
-          env:
-            LIBVA_DRIVER_NAME: "iHD"
-          resources:
-            limits:
-              gpu.intel.com/i915: "1"
-            requests:
-              gpu.intel.com/i915: "1"
         
         immich:
           persistence:
