@@ -36,8 +36,8 @@ configs:
           id: google
           name: Google
           config:
-            clientID: "${var.oidc_client_id}"
-            clientSecret: "${var.oidc_client_secret}"
+            clientID: "${var.config.oidc_client_id}"
+            clientSecret: "${var.secret_config.oidc_client_secret}"
             redirectURI: https://argocd.pitpe.app/api/dex/callback
             groups:
               - capsule.clastix.io
@@ -49,7 +49,7 @@ configs:
       staticClients:
         - id: kubernetes-client
           name: 'Kubernetes CLI'
-          secret: "${var.device_client_secret}"
+          secret: "${var.secret_config.device_client_secret}"
           grantTypes:
             - authorization_code
             - urn:ietf:params:oauth:grant-type:device_code

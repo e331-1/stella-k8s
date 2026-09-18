@@ -45,9 +45,9 @@ resource "proxmox_virtual_environment_firewall_rules" "security_group_rules" {
 
 # --- 3. Proxmox上に Talos VM を作成 ---
 resource "proxmox_virtual_environment_vm" "talos_single" {
-  name      = var.vm_name
-  node_name = var.node_name
-  vm_id     = var.vm_id
+  name      = var.config.vm_name
+  node_name = var.config.node_name
+  vm_id     = var.config.vm_id
 
   agent {
     enabled = true # QEMU Guest Agent
@@ -104,7 +104,7 @@ resource "proxmox_virtual_environment_vm" "talos_single" {
   hostpci {
     device = "hostpci0"
     id = "0000:00:02.0"
-    mdev = "i915-GVTg_V5_4"
+    mdev = "i915-GVTg_V5_8"
   }
 
   boot_order = ["scsi0"]

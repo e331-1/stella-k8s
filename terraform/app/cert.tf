@@ -63,7 +63,7 @@ resource "kubectl_manifest" "cert_manager_namespace" {
 #     }
 #     type = "Opaque"
 #     stringData = {
-#       api-token = var.cloudflare_api_token
+#       api-token = var.config.cloudflare_api_token
 #     }
 #   })
 

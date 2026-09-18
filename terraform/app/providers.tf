@@ -37,8 +37,8 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint = var.proxmox_endpoint
-  username = var.proxmox_username
-  password = var.proxmox_password
+  endpoint = var.config.proxmox_endpoint
+  username = var.config.proxmox_username
+  password = var.secret_config.proxmox_password
   insecure = true # 自己署名証明書の場合
 }

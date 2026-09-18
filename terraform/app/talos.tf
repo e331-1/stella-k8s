@@ -1,7 +1,7 @@
 data "talos_client_configuration" "this" {
   cluster_name         = "stella-k8s-${var.environment}"
   client_configuration = talos_machine_secrets.this.client_configuration
-  endpoints            = [var.node_ip]
+  endpoints            = [var.config.node_ip]
 }
 
 # --- 1. Talosの機密鍵・証明書設定を自動生成 ---
@@ -11,7 +11,7 @@ resource "talos_machine_secrets" "this" {}
 data "talos_machine_configuration" "controlplane" {
   cluster_name       = "stella-k8s"
   machine_type       = "controlplane"
-  cluster_endpoint   = "https://${var.node_ip}:6443"
+  cluster_endpoint   = "https://${var.config.node_ip}:6443"
   machine_secrets    = talos_machine_secrets.this.machine_secrets
   kubernetes_version = "v1.36.2"
   talos_version      = "v1.13.9"
@@ -33,11 +33,11 @@ metadata:
 stringData:
   config.yaml: |
     clusters:
-      - url: ${trimsuffix(var.proxmox_endpoint, "/")}/api2/json
+      - url: ${trimsuffix(var.config.proxmox_endpoint, "/")}/api2/json
         insecure: true
         token_id: "${proxmox_virtual_environment_user.kubernetes.user_id}!${proxmox_virtual_environment_user_token.ccm.token_name}"
         token_secret: "${element(split("=", proxmox_virtual_environment_user_token.ccm.value), 1)}"
-        region: ${var.proxmox_clustername}
+        region: ${var.config.proxmox_clustername}
 EOT
           },{
             name = "proxmox-csi-plugin"
@@ -51,11 +51,11 @@ metadata:
 stringData:
   config.yaml: |
     clusters:
-      - url: ${trimsuffix(var.proxmox_endpoint, "/")}/api2/json
+      - url: ${trimsuffix(var.config.proxmox_endpoint, "/")}/api2/json
         insecure: true
         token_id: "${proxmox_virtual_environment_user.kubernetes-csi.user_id}!${proxmox_virtual_environment_user_token.csi.token_name}"
         token_secret: "${element(split("=", proxmox_virtual_environment_user_token.csi.value), 1)}"
-        region: ${var.proxmox_clustername}
+        region: ${var.config.proxmox_clustername}
 EOT
           },
 {
@@ -104,8 +104,8 @@ EOT
         }
         apiServer={
           extraArgs = {
-            "oidc-issuer-url" = var.oidc_issuer_url
-            "oidc-client-id" = var.oidc_client_id
+            "oidc-issuer-url" = var.config.oidc_issuer_url
+            "oidc-client-id" = var.config.oidc_client_id
             "oidc-username-claim" = "email"
           }
         }
@@ -133,7 +133,7 @@ EOT
           }
         }
         network = {
-          # hostname=var.vm_name
+          # hostname=var.config.vm_name
           nameservers = [
             "1.1.1.1",
             "8.8.8.8" #これがないと10.0.1.1で名前解決しようとする
@@ -157,7 +157,7 @@ EOT
     yamlencode({
       apiVersion = "v1alpha1"
       kind       = "HostnameConfig"
-      hostname   = var.vm_name # または "talos-single"
+      hostname   = var.config.vm_name # または "talos-single"
       auto       = "off"
     }),
     yamlencode({
@@ -186,7 +186,7 @@ EOT
 resource "talos_machine_configuration_apply" "controlplane" {
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
-  node                        = var.node_ip
+  node                        = var.config.node_ip
 
   depends_on = [proxmox_virtual_environment_vm.talos_single]
 
@@ -195,7 +195,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
 # --- 5. クラスタのブートストラップ（初期化） ---
 resource "talos_machine_bootstrap" "bootstrap" {
   client_configuration = talos_machine_secrets.this.client_configuration
-  node                 = var.node_ip
+  node                 = var.config.node_ip
 
   depends_on = [talos_machine_configuration_apply.controlplane]
 }
@@ -203,7 +203,7 @@ resource "talos_machine_bootstrap" "bootstrap" {
 # --- 6. kubeconfig の取得 (resourceへ変更) ---
 resource "talos_cluster_kubeconfig" "kubeconfig" {
   client_configuration = talos_machine_secrets.this.client_configuration
-  node                 = var.node_ip
+  node                 = var.config.node_ip
 
   depends_on = [talos_machine_bootstrap.bootstrap]
 }

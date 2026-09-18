@@ -18,7 +18,7 @@ resource "null_resource" "update_configs" {
 
   triggers = {
     environment      = var.environment
-    control_plane_ip = var.node_ip
+    control_plane_ip = var.config.node_ip
     config_hash      = sha256(data.talos_client_configuration.this.talos_config)
   }
 
@@ -43,8 +43,8 @@ resource "null_resource" "update_configs" {
       # --- 2. kubeconfig の更新 ---
       # 一時ファイルを明示的に渡すことで ~/.talos/config 依存の問題を回避
       talosctl kubeconfig \
-        --nodes ${var.node_ip} \
-        --endpoints ${var.node_ip} \
+        --nodes ${var.config.node_ip} \
+        --endpoints ${var.config.node_ip} \
         --talosconfig ${local_file.talosconfig_temp.filename} \
         --force \
         ~/.kube/config

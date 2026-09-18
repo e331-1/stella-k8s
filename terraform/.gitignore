@@ -13,3 +13,5 @@
 talosconfig
 .terraform.tfstate.lock.info
 kubeconfig
+
+*.tmp

@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 
 resource "proxmox_virtual_environment_role" "ccm" {
-  role_id = "CCM"
+  role_id = "CCM${var.environment == "production" ? "" : "-dev"}"
 
   privileges = [
     "Sys.Audit",
@@ -12,10 +12,10 @@ resource "proxmox_virtual_environment_role" "ccm" {
   ]
 }
 
-import {
-  to = proxmox_virtual_environment_role.ccm
-  id = "CCM"
-}
+# import {
+#   to = proxmox_virtual_environment_role.ccm
+#   id = "CCM${var.environment == "production" ? "" : "-dev"}"
+# }
 
 resource "proxmox_virtual_environment_user" "kubernetes" {
 
@@ -89,7 +89,7 @@ YAML
 # ------------------------------------------------------------------------------
 
 resource "proxmox_virtual_environment_role" "csi" {
-  role_id = "Kubernetes-CSI"
+  role_id = "Kubernetes-CSI${var.environment == "production" ? "" : "-dev"}"
 
   privileges = [
     "VM.Audit",
@@ -100,10 +100,10 @@ resource "proxmox_virtual_environment_role" "csi" {
   ]
 }
 
-import {
-  to = proxmox_virtual_environment_role.csi
-  id = "Kubernetes-CSI"
-}
+# import {
+#   to = proxmox_virtual_environment_role.csi
+#   id = "Kubernetes-CSI${var.environment == "production" ? "" : "-dev"}"
+# }
 
 
 resource "proxmox_virtual_environment_user" "kubernetes-csi" {
