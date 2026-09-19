@@ -15,3 +15,5 @@ talosconfig
 kubeconfig
 
 *.tmp
+
+generated/

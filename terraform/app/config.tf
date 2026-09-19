@@ -1,57 +1,84 @@
+
+# Kubeconfigの取得
+data "talos_cluster_kubeconfig" "this" {
+  depends_on           = [talos_machine_bootstrap.bootstrap]
+  client_configuration = talos_machine_secrets.this.client_configuration
+  node                 = var.config.node_ip
+}
+
+# ディレクトリ内に個別ファイルとして保存（安全なアプローチ）
+resource "local_file" "kubeconfig" {
+  content         = data.talos_cluster_kubeconfig.this.kubeconfig_raw
+  filename        = "${path.module}/generated/kubeconfig-${var.environment}.yaml"
+  file_permission = "0600"
+}
+
+# 必要に応じて talosconfig も同様に書き出し
+resource "local_file" "talosconfig" {
+  content         = data.talos_client_configuration.this.talos_config
+  filename        = "${path.module}/generated/talosconfig-${var.environment}.yaml"
+  file_permission = "0600"
+}
+output "talosconfig" {
+  value = data.talos_client_configuration.this.talos_config
+}
+output "kubeconfig" {
+  value = data.talos_cluster_kubeconfig.this.kubeconfig_raw
+}
 #
 #    talosconfig
 #
 
 
-# 2. 生成されたtalosconfigを一時的にローカルファイルとして書き出し
-resource "local_file" "talosconfig_temp" {
-  content  = data.talos_client_configuration.this.talos_config
-  filename = "${path.module}/.talosconfig-${var.environment}.tmp"
-}
+# # 2. 生成されたtalosconfigを一時的にローカルファイルとして書き出し
+# resource "local_file" "talosconfig_temp" {
+#   content  = data.talos_client_configuration.this.talos_config
+#   filename = "${path.module}/.talosconfig-${var.environment}.tmp"
+# }
 
-# 3. ~/.talos/config へマージ（統合）
-resource "null_resource" "update_configs" {
-  depends_on = [
-    talos_machine_bootstrap.bootstrap,
-    local_file.talosconfig_temp
-  ]
+# # 3. ~/.talos/config へマージ（統合）
+# resource "null_resource" "update_configs" {
+#   depends_on = [
+#     talos_machine_bootstrap.bootstrap,
+#     local_file.talosconfig_temp
+#   ]
 
-  triggers = {
-    environment      = var.environment
-    control_plane_ip = var.config.node_ip
-    config_hash      = sha256(data.talos_client_configuration.this.talos_config)
-  }
+#   triggers = {
+#     environment      = var.environment
+#     control_plane_ip = var.config.node_ip
+#     config_hash      = sha256(data.talos_client_configuration.this.talos_config)
+#   }
 
-  provisioner "local-exec" {
-    command = <<EOT
-      set -e # エラーが発生したら即座に停止
-      mkdir -p ~/.talos ~/.kube
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       set -e # エラーが発生したら即座に停止
+#       mkdir -p ~/.talos ~/.kube
 
-      TARGET_CONTEXT="${data.talos_client_configuration.this.cluster_name}"
+#       TARGET_CONTEXT="${data.talos_client_configuration.this.cluster_name}"
 
-      # 1. 既存の同名コンテキストがあれば削除して重複増殖を防ぐ
-      if [ -s ~/.talos/config ]; then
-        # 削除対象がアクティブな場合のエラーを避けるため、カレントコンテキストを一時的に解除
-        talosctl config context "" || true
+#       # 1. 既存の同名コンテキストがあれば削除して重複増殖を防ぐ
+#       if [ -s ~/.talos/config ]; then
+#         # 削除対象がアクティブな場合のエラーを避けるため、カレントコンテキストを一時的に解除
+#         talosctl config context "" || true
         
-        echo y | talosctl config remove "$TARGET_CONTEXT" || true
-        talosctl config merge ${local_file.talosconfig_temp.filename}
-      else
-        cp ${local_file.talosconfig_temp.filename} ~/.talos/config
-        chmod 600 ~/.talos/config
-      fi
-      # --- 2. kubeconfig の更新 ---
-      # 一時ファイルを明示的に渡すことで ~/.talos/config 依存の問題を回避
-      talosctl kubeconfig \
-        --nodes ${var.config.node_ip} \
-        --endpoints ${var.config.node_ip} \
-        --talosconfig ${local_file.talosconfig_temp.filename} \
-        --force \
-        ~/.kube/config
+#         echo y | talosctl config remove "$TARGET_CONTEXT" || true
+#         talosctl config merge ${local_file.talosconfig_temp.filename}
+#       else
+#         cp ${local_file.talosconfig_temp.filename} ~/.talos/config
+#         chmod 600 ~/.talos/config
+#       fi
+#       # --- 2. kubeconfig の更新 ---
+#       # 一時ファイルを明示的に渡すことで ~/.talos/config 依存の問題を回避
+#       talosctl kubeconfig \
+#         --nodes ${var.config.node_ip} \
+#         --endpoints ${var.config.node_ip} \
+#         --talosconfig ${local_file.talosconfig_temp.filename} \
+#         --force \
+#         ~/.kube/config
 
-      # --- 3. 最後に作業用一時ファイルを削除 ---
-      rm -f ${local_file.talosconfig_temp.filename}
-    EOT
-  }
-}
+#       # --- 3. 最後に作業用一時ファイルを削除 ---
+#       rm -f ${local_file.talosconfig_temp.filename}
+#     EOT
+#   }
+# }
 
